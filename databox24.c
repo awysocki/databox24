@@ -37,7 +37,7 @@ enum {
 
 /* GLOBAL Vars */
 
-char	*gAgent = "DataBox24_Jan-11-2021/v0.02";		// This is used on the HTTP POST call specifing the agent that is calling
+char	*gAgent = "DataBox24_Jan-28-2021/v0.02";		// This is used on the HTTP POST call specifing the agent that is calling
 
 char	*gStartUp = "\n\ndatabox24 - AB Software LLC\nVersion 0.02 Jan 11, 2021\nRead COM port for Data Box micro inverter converter\r\n\r\n";
 
