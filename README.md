@@ -1,4 +1,4 @@
-DATABOX24
+DATABOX24 - Polling SG700MD
 =========
 
 databox24 is a simple 'c' application to read a communication port that is attached to
@@ -6,6 +6,7 @@ the newenergytek.com DATA BOX that is connected via USB port to your linux machi
 it will communicate to the SG Series of micro inverters. 
 200,250,300,350,400,450,500,600,700,1000,1200 and 1400
 
+I have only tested on model SG700MD - http://www.newenergytek.com/index.php/content-48
 
   - requires [databox24g] datacollector http://www.newenergytek.com/index.php/content-57
   - application run as root
