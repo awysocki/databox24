@@ -326,8 +326,8 @@ ProcessStatus( char *_status, int _inverterid )
 		Swap3Endian(CRIS->head.tw),
 		CRIS->head.value, 
 		CRIS->check,
-		CRIS->unknown,
-		CRIS->status
+		CRIS->reserved,
+		CRIS->xx
 		);
 		
 	strcat( gPostVars, locbuf);
@@ -401,10 +401,10 @@ ProcessStatus( char *_status, int _inverterid )
 	sprintf( gDbgBuf, "Temp: %u.%.01u C | %u.%.02u F - 0x%02X", ta, tb, fa, fb, t );
 	WriteDBGLog( gDbgBuf );
 	
-	sprintf( gDbgBuf, "Status: 0x%02X", CRIS->status );
+	sprintf( gDbgBuf, "Status: 0x%02X", CRIS->xx );
 	WriteDBGLog( gDbgBuf );
 
-	sprintf( gRunLogBuf, "%02X, %04X, %04X, %08X, %u, %02X, %02X, %u, %u, %u, %u, %02X, %u, %02X, ", 
+	sprintf( gRunLogBuf, "%02X, %04X, %04X, %08X, %u, %02X, %02X, %u, %u, %u, %u, %04X, %02X, %u, ", 
 		CRIS->head.cmd, 
 		Swap2Endian(CRIS->head.databoxid), Swap2Endian(CRIS->head.areaid), Swap4Endian(CRIS->head.inverterid),
 		Swap3Endian(CRIS->head.tw), CRIS->head.value, CRIS->check, 
@@ -412,9 +412,9 @@ ProcessStatus( char *_status, int _inverterid )
 		dcc,
 		acv,
 		acc,
-		CRIS->unknown,
-		t ,
-		CRIS->status );
+		CRIS->reserved,
+		CRIS->xx,
+		t );
 		
 	gHexBuf[0] = 0;
 	HexString ( (char *)_status, sizeof( struct CU_RecvInverterStatus ), gHexBuf , 0 );

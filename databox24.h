@@ -9,42 +9,42 @@
 #define CMD_POWER	0xc3
 
 
-#define	VALUE_STATUS 	0x0000
-#define VALUE_ON		0x0001
-#define VALUE_OFF		0x0002
-#define VALUE_REBOOT	0x0003
+#define	VALUE_STATUS 	0x00
+#define VALUE_ON		0x01
+#define VALUE_OFF		0x02
+#define VALUE_REBOOT	0x03
 
 
 struct CU_Head {
-	unsigned char	head;
-	unsigned char	cmd;
-	short	databoxid;
-	short	areaid;
-	int		inverterid;
-	unsigned char	tw[3];			// Guess this is the total Watts ever created in the unit it  increments
-	unsigned char	value;
+	unsigned char	head;			// 1 byte header code usually a 0x43
+	unsigned char	cmd;			// 1 byte command function code
+	short	databoxid;				// 2 byte databox ID
+	short	areaid;					// 2 byte areaid this is just echoed back what we send in
+	int		inverterid;				// 4 byte Inverter ID
+	unsigned char	tw[3];			// 3 byte total watts generated
+	unsigned char	value;			// 1 byte parameter passed in, On return its the total cumlative inverter generation
 };
 
 struct CU_SendMsg {
-	struct CU_Head	head;
-	unsigned char	check;
+	struct CU_Head	head;			// 14 byte header 
+	unsigned char	check;			// 1 byte check digit
 };
 
 
 struct CU_RecvHello {
-	struct CU_Head	head;
-	unsigned char	check;
+	struct CU_Head	head;			// 14 byte header
+	unsigned char	check;			// 1 byte check digit
 };
 struct CU_RecvInverterStatus {
-	struct CU_Head	head;
-	unsigned char	check;
-	unsigned short	DCVoltage;
-	unsigned short	DCCurrent;
-	unsigned short	ACVoltage;
-	unsigned short	ACCurrent;
-	unsigned char 	unknown;
-	unsigned short	Temp;
-	unsigned char	status;
+	struct CU_Head	head;			// 14 byte header
+	unsigned char	check;			// 1 byte check digit
+	unsigned short	DCVoltage;		// 2 byte DC Voltage (divide by 100 - 2 places past decimal point)
+	unsigned short	DCCurrent;		// 2 byte DC Current (divide by 100 - 2 places past decimal point)
+	unsigned short	ACVoltage;		// 2 byte AC Voltage (divide by 100 - 2 places past decimal point)
+	unsigned short	ACCurrent;		// 2 byte AC Current (divide by 100 - 2 places past decimal point)
+	unsigned short 	reserved;		// 2 Byte reserved by company, no definition given
+	unsigned char 	xx;				// 1 byte not defined by company
+	unsigned char	Temp;			// 1 byte temperature
 };
 
 
