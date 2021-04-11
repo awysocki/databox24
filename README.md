@@ -23,6 +23,7 @@ Device
 my code to reflect their definition of the data.
 
 CMD - Get Status (15 bytes total)
+```
 	0x43		- Header (1 byte)
 	0xC0		- CMD - 0xC0=Device status (1 byte)	
 	0x1122 	- Databox ID (2 bytes)
@@ -31,8 +32,10 @@ CMD - Get Status (15 bytes total)
 	0x112233	- Total Power Generations (3 Bytes) Set to 0x000000 on command
 	0x00		- Value Parameter (1 byte) 0x00=Status, 0x01=Turn ON, 0x02=Turn OFF, 0x03=Reboot
 	0xCD		- Check Digit
+```
 
 RCV - Receive Status (27 bytes total (15 CMD header + 12 bytes Status))
+```
 	0x43		- Header (1 byte)
 	0xC0		- CMD - 0xC0=Device status (1 byte)
 	0x1122 	- Databox ID (2 bytes)
@@ -48,7 +51,7 @@ RCV - Receive Status (27 bytes total (15 CMD header + 12 bytes Status))
 	0x0000		- Reserved (2 bytes)
 	0x00		- xx UNKNOWN (1 byte)
 	0x11		- Temperature C° (1 byte)
-
+```
 
 
 Computer
