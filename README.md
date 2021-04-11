@@ -26,7 +26,7 @@ CMD - Get Status (15 bytes total)
 ```
 	0x43		- Header (1 byte)
 	0xC0		- CMD - 0xC0=Device status (1 byte)	
-	0x1122 	- Databox ID (2 bytes)
+	0x1122 		- Databox ID (2 bytes)
 	0x0000		- Area ID (2 bytes) What is passed in is returned
 	0x11223344	- Inverter ID (4 bytes)
 	0x112233	- Total Power Generations (3 Bytes) Set to 0x000000 on command
@@ -38,7 +38,7 @@ RCV - Receive Status (27 bytes total (15 CMD header + 12 bytes Status))
 ```
 	0x43		- Header (1 byte)
 	0xC0		- CMD - 0xC0=Device status (1 byte)
-	0x1122 	- Databox ID (2 bytes)
+	0x1122 		- Databox ID (2 bytes)
 	0x0000		- Area ID (2 bytes) Whatever is passed in is returned back
 	0x11223344	- Inverter ID (4 bytes)
 	0x112233	- Total Power Generations (3 Bytes) Set to 0x000000 on command
