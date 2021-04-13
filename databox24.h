@@ -15,28 +15,38 @@
 #define VALUE_REBOOT	0x03
 
 
-struct CU_Head {
+struct CU_SendHead {
 	unsigned char	head;			// 1 byte header code usually a 0x43
 	unsigned char	cmd;			// 1 byte command function code
 	short	databoxid;				// 2 byte databox ID
 	short	areaid;					// 2 byte areaid this is just echoed back what we send in
 	int		inverterid;				// 4 byte Inverter ID
-	unsigned char	tw[3];			// 3 byte total watts generated
-	unsigned char	value;			// 1 byte parameter passed in, On return its the total cumlative inverter generation
+	int		value;					// 4 byte parameter passed in
 };
 
+struct CU_RecvHead {
+	unsigned char	head;			// 1 byte header code usually a 0x43
+	unsigned char	cmd;			// 1 byte command function code
+	short	databoxid;				// 2 byte databox ID
+	short	areaid;					// 2 byte areaid this is just echoed back what we send in
+	int		inverterid;				// 4 byte Inverter ID
+	float	totalwatts;				// 4 byte total cumlative inverter generation
+};
+
+
+
 struct CU_SendMsg {
-	struct CU_Head	head;			// 14 byte header 
+	struct CU_SendHead	head;		// 14 byte header 
 	unsigned char	check;			// 1 byte check digit
 };
 
 
 struct CU_RecvHello {
-	struct CU_Head	head;			// 14 byte header
+	struct CU_RecvHead	head;		// 14 byte header
 	unsigned char	check;			// 1 byte check digit
 };
 struct CU_RecvInverterStatus {
-	struct CU_Head	head;			// 14 byte header
+	struct CU_RecvHead	head;		// 14 byte header
 	unsigned char	check;			// 1 byte check digit
 	unsigned short	DCVoltage;		// 2 byte DC Voltage (divide by 100 - 2 places past decimal point)
 	unsigned short	DCCurrent;		// 2 byte DC Current (divide by 100 - 2 places past decimal point)

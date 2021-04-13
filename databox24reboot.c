@@ -96,7 +96,7 @@ int RecvCmd( unsigned char *_buf, int _len, int _tries );
 void SleepBytes( int _len );
 unsigned char CheckSum( unsigned char *_sumstr, int _len );
 unsigned short Swap2Endian(unsigned short _val);
-unsigned int Swap3Endian(unsigned char *_val);
+float SwapFloatEndian(float _val);
 unsigned int Swap4Endian(unsigned int _val);
 void HexString( char *_buffer, int _len, char *_rstr, int _split );
 int PostData(char *_vars );
@@ -189,24 +189,22 @@ char *envp;
 
 	
 			/* POSTVAR */
-			sprintf( gPostVars, "Cmd=%02X&DataBoxID=%04X&AreaID=%04X&InverterID=%08X&TotalWatts=%u&Value=%02X&CheckDigit=%02X&RawData=%s", 
+			sprintf( gPostVars, "Cmd=%02X&DataBoxID=%04X&AreaID=%04X&InverterID=%08X&TotalWatts=%f&CheckDigit=%02X&RawData=%s", 
 				RH->head.cmd, 
 				Swap2Endian(RH->head.databoxid), 
 				Swap2Endian(RH->head.areaid), 
 				Swap4Endian(RH->head.inverterid),
-				Swap3Endian(RH->head.tw),
-				RH->head.value, 
+				SwapFloatEndian(RH->head.totalwatts),
 				RH->check,
 				gHexBuf
 				);
 
 
 	
-			sprintf( gDbgBuf, "DataBox: %04X | Inverter# %04X | TotalWatts=%u, value=%x", 
+			sprintf( gDbgBuf, "DataBox: %04X | Inverter# %04X | TotalWatts=%f", 
 				Swap2Endian(RH->head.databoxid), 
 				Swap4Endian(RH->head.inverterid), 
-				Swap3Endian(RH->head.tw), 
-				RH->head.value );
+				SwapFloatEndian(RH->head.totalwatts) );
 				
 			WriteDBGLog( gDbgBuf );
 			
@@ -318,13 +316,12 @@ ProcessStatus( char *_status, int _inverterid )
 	/* POSTVAR - FORMAT all the variables we will send to the HTTP logger 	*/
 	/*			The TS variable is added just before sending				*/
 	/* -------------------------------------------------------------------- */
-	sprintf( locbuf, "Cmd=%02X&DataBoxID=%04X&AreaID=%04X&InverterID=%08X&TotalWatts=%u&Value=%02X&CheckDigit=%02X&Unknown=%02X&Status=%02X", 
+	sprintf( locbuf, "Cmd=%02X&DataBoxID=%04X&AreaID=%04X&InverterID=%08X&TotalWatts=%f&CheckDigit=%02X&Unknown=%02X&Status=%02X", 
 		CRIS->head.cmd, 
 		Swap2Endian(CRIS->head.databoxid), 
 		Swap2Endian(CRIS->head.areaid), 
 		Swap4Endian(CRIS->head.inverterid),
-		Swap3Endian(CRIS->head.tw),
-		CRIS->head.value, 
+		SwapFloatEndian(CRIS->head.totalwatts),
 		CRIS->check,
 		CRIS->reserved,
 		CRIS->xx
@@ -332,11 +329,10 @@ ProcessStatus( char *_status, int _inverterid )
 		
 	strcat( gPostVars, locbuf);
 	
-	sprintf( gDbgBuf, "DataBox: %04X | Inverter# %08X | TotalWatts=%u, value=%x", 
+	sprintf( gDbgBuf, "DataBox: %04X | Inverter# %08X | TotalWatts=%f", 
 		Swap2Endian(CRIS->head.databoxid), 
 		Swap4Endian(CRIS->head.inverterid), 
-		Swap3Endian(CRIS->head.tw), 
-		CRIS->head.value );
+		SwapFloatEndian(CRIS->head.totalwatts) );
 		
 	WriteDBGLog( gDbgBuf );
 	
@@ -404,10 +400,10 @@ ProcessStatus( char *_status, int _inverterid )
 	sprintf( gDbgBuf, "Status: 0x%02X", CRIS->xx );
 	WriteDBGLog( gDbgBuf );
 
-	sprintf( gRunLogBuf, "%02X, %04X, %04X, %08X, %u, %02X, %02X, %u, %u, %u, %u, %04X, %02X, %u, ", 
+	sprintf( gRunLogBuf, "%02X, %04X, %04X, %08X, %f, %02X, %u, %u, %u, %u, %04X, %02X, %u, ", 
 		CRIS->head.cmd, 
 		Swap2Endian(CRIS->head.databoxid), Swap2Endian(CRIS->head.areaid), Swap4Endian(CRIS->head.inverterid),
-		Swap3Endian(CRIS->head.tw), CRIS->head.value, CRIS->check, 
+		SwapFloatEndian(CRIS->head.totalwatts), CRIS->check, 
 		dcv,
 		dcc,
 		acv,
@@ -886,18 +882,21 @@ unsigned short Swap2Endian(unsigned short _val)
 }
 
 /* ==================================================== */
-/* SWAP a 3 byte number									*/
+/* SWAP a float number									*/
 /* ==================================================== */
-unsigned int Swap3Endian(unsigned char *_val)
+float SwapFloatEndian(float _val)
 {
-	unsigned int rc=0;
-	unsigned char *rcp;
+	float rc=0;
+	unsigned char *f;
+	unsigned char *t;
 	
-	rcp = (unsigned char *)&rc;
+	t = (unsigned char *)&rc;
+	f = (unsigned char *)&_val;
 	
-	rcp[0] = _val[2];
-	rcp[1] = _val[1];
-	rcp[2] = _val[0];
+	t[0] = f[3];
+	t[1] = f[2];
+	t[2] = f[1];
+	t[3] = f[0];
 	
 	return (rc);
 

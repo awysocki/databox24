@@ -17,9 +17,9 @@ This is a very simple server gateway app to poll and send the data to a web serv
 
 Device
 --
-[DATA BOX 24G] - New Engery Tek (no version number or model on the unit
+[DATA BOX 24G] - New Engery Tek (no version number or model on the unit )
 
-{note:] I did receive a response from the company, and they gave me a quick layout of the data.  I have updated
+[note:] I did receive a response from the company, and they gave me a quick layout of the data.  I have updated
 my code to reflect their definition of the data.
 
 CMD - Get Status (15 bytes total)
@@ -29,8 +29,7 @@ CMD - Get Status (15 bytes total)
 	0x1122 		- Databox ID (2 bytes)
 	0x0000		- Area ID (2 bytes) What is passed in is returned
 	0x11223344	- Inverter ID (4 bytes)
-	0x112233	- Total Power Generations (3 Bytes) Set to 0x000000 on command
-	0x00		- Value Parameter (1 byte) 0x00=Status, 0x01=Turn ON, 0x02=Turn OFF, 0x03=Reboot
+	0x11223344	- Value Parameter (4 byte) 0x00=Status, 0x01=Turn ON, 0x02=Turn OFF, 0x03=Reboot
 	0xCD		- Check Digit
 ```
 
@@ -41,8 +40,7 @@ RCV - Receive Status (27 bytes total (15 CMD header + 12 bytes Status))
 	0x1122 		- Databox ID (2 bytes)
 	0x0000		- Area ID (2 bytes) Whatever is passed in is returned back
 	0x11223344	- Inverter ID (4 bytes)
-	0x112233	- Total Power Generations (3 Bytes) Set to 0x000000 on command
-	0x00		- Value Parameter (1 byte) 0x00=Status, 0x01=Turn ON, 0x02=Turn OFF, 0x03=Reboot
+	0x11223344	- Total Power Generations (4 Byte Float) 
 	0xCD		- Check Digit (1 byte)
 	0x1122		- DC Voltage divide by 100 for 2 places after decimal point (2 bytes)
 	0x1122		- DC Current divide by 100 for 2 places after decimal point (2 bytes)
